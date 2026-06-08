@@ -20,6 +20,10 @@ import { ExtensionSecurityManager } from './managers/extension-security-manager'
 
 const isDev = process.env.NODE_ENV !== 'production'
 
+if (isDev) {
+  process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true'
+}
+
 // ── Apply IPC Hardening (Phase 9) ──────────────────────────────────────────
 applyIpcHardening()
 
