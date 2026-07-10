@@ -4,90 +4,128 @@
 
 > **The Next-Generation Security-First Browser.** Built on Electron and Chromium, SecureVision AI Browser is designed from the ground up for researchers, threat analysts, and security-conscious individuals.
 
-## 🌟 Overview
+## Overview
 
 SecureVision AI Browser replaces the traditional browsing experience with a highly hardened, workspace-driven environment. It natively integrates with the SecureVision Python Backend for real-time AI deepfake scanning, heuristic phishing classification, and live network anomaly detection directly inside your New Tab Dashboard.
 
-## 🚀 Key Features
+## Key Features
 
-### 🏢 Workspace Session Isolation
+### Workspace Session Isolation
+
 - **100% Isolated Partitions:** Workspaces (e.g., *Personal*, *Work*, *Secure*) operate in entirely distinct storage partitions (`persist:<workspaceId>`).
-- **Complete Separation:** Cookies, Local Storage, IndexedDB, and Cache never bleed across workspaces. Logging into an account in one workspace keeps it fully isolated from the others.
-- **Persistent Tab States:** Tabs are securely persisted to disk and restored instantly when switching between your isolated workspaces.
+- **Complete Separation:** Cookies, Local Storage, IndexedDB, Cache, and Service Workers never bleed across workspaces.
+- **Persistent Tab States:** Tabs are securely persisted to disk and restored instantly when switching between isolated workspaces.
 
-### 🛡️ Built-in Security Dashboard (New Tab)
-Every time you open a new tab, you are presented with the SecureVision AI Command Center instead of a blank page. Features include:
-- **Deepfake Forensic Scanner:** Paste any media URL to verify its authenticity using our backend AI forensic neural nets (identifies facial lattices and synthetic voice signatures).
-- **Phishing Heuristics Scanner:** Test suspicious emails, domains, or messages using real-time social engineering indicators.
-- **Honeypot Decoy Injection:** Instantly deploy honeytoken credentials into the browser's database. Any infostealer malware attempting to harvest these credentials will trigger a silent security alert on the network layer!
+### Built-in Security Dashboard (New Tab)
 
-### 👻 Ghost Mode & Hardening
+Every time you open a new tab, you are presented with the SecureVision AI Command Center instead of a blank page.
+
+- **Deepfake Forensic Scanner:** Analyze media URLs using AI-powered forensic models.
+- **Phishing Heuristics Scanner:** Evaluate suspicious emails, domains, and messages using real-time detection techniques.
+- **Honeypot Decoy Injection:** Deploy honeytoken credentials to detect credential-stealing malware through silent security alerts.
+
+### Ghost Mode & Browser Hardening
+
 - **Ghost Mode:** One-click toggle for stealth sessions with sandboxed routing.
-- **Zero-Trust IPC:** A strict Zod-validated Inter-Process Communication (IPC) layer between the React frontend and the Electron Node.js backend prevents privilege escalation attacks.
-- **Memory Orchestration:** Intelligent background tab throttling and memory purging to prevent runaway scripts or crypto-miners from consuming system resources.
+- **Zero-Trust IPC:** A strict Zod-validated IPC layer between the React frontend and Electron backend prevents privilege escalation.
+- **Memory Orchestration:** Intelligent background tab throttling and memory cleanup reduce resource consumption and mitigate abusive scripts.
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 | Layer | Technologies |
 | :--- | :--- |
 | **Core Framework** | Electron, Node.js, Chromium |
-| **Frontend UI** | React 19, Vite, TypeScript |
-| **Styling** | TailwindCSS v4, Framer Motion, Lucide Icons |
-| **State & Validation** | Zustand (Global State), Zod (IPC Validation) |
-| **Build & Packager** | Electron-builder, pnpm workspaces |
+| **Frontend** | React 19, Vite, TypeScript |
+| **Styling** | Tailwind CSS v4, Framer Motion, Lucide Icons |
+| **State Management** | Zustand |
+| **Validation** | Zod |
+| **Build System** | Electron Builder, pnpm Workspaces |
 
-## 🚦 Getting Started
+## Getting Started
 
 ### Prerequisites
+
 - Node.js 18+
-- [pnpm](https://pnpm.io/installation) installed globally (`npm install -g pnpm`)
-- SecureVision AI Python Backend (running on port `8000`) for the full AI experience.
+- pnpm installed globally
+
+```bash
+npm install -g pnpm
+```
+
+- SecureVision AI Python Backend running on port `8000` for AI-powered features.
 
 ### Installation
 
-1. Navigate to the `browser` directory from the root project:
-   ```bash
-   cd browser
-   ```
-
-2. Install dependencies (if you haven't run install from the monorepo root):
-   ```bash
-   pnpm install
-   ```
-
-3. Start the development server:
-   ```bash
-   pnpm run dev
-   ```
-   *Note: This command concurrently compiles the Electron backend, starts the Vite React dev server, and launches the desktop application.*
-
-### Building for Production
-
-To create distributable native binaries for your operating system:
+Navigate to the browser directory:
 
 ```bash
-# Build for Windows
+cd browser
+```
+
+Install dependencies:
+
+```bash
+pnpm install
+```
+
+Start the development environment:
+
+```bash
+pnpm run dev
+```
+
+This command starts the Electron main process, Vite development server, and launches the desktop application.
+
+## Production Build
+
+Build distributable installers for your platform:
+
+```bash
+# Windows
 pnpm run dist:win
 
-# Build for macOS
+# macOS
 pnpm run dist:mac
 
-# Build for Linux
+# Linux
 pnpm run dist:linux
 ```
 
-*The compiled installers will be located in the `browser/dist` directory.*
+Generated installers will be available in:
 
-## 🏗️ Architecture Design
+```text
+browser/dist
+```
 
-The browser follows a strict multi-process architecture emphasizing security:
+## Architecture
 
-- **Main Process (`src/main/`):** Handles OS-level interactions, window management, isolated session partitioning, and file I/O for workspace states.
-- **Renderer Process (`src/renderer/`):** A hardened, context-isolated React environment driving the Sidebar, Workspaces, and the intelligent Dashboard.
-- **BrowserViews (`BrowserViewManager`):** The actual web pages load inside dynamically partitioned `BrowserView` overlays, meaning the web content never touches the React UI layer.
+The browser follows a security-first multi-process architecture.
 
-## 📄 License
+### Main Process (`src/main/`)
+
+- Window management
+- Workspace isolation
+- Session partitioning
+- Native OS integrations
+- Secure file I/O
+
+### Renderer Process (`src/renderer/`)
+
+- Context-isolated React application
+- Sidebar
+- Workspace management
+- SecureVision Dashboard
+
+### BrowserView Layer
+
+- Websites are rendered inside isolated `BrowserView` instances.
+- Web content remains completely separated from the React UI layer.
+- Each workspace maintains its own dedicated Chromium storage partition.
+
+## License
+
 This project is part of the SecureVision AI ecosystem and is licensed under the MIT License.
 
 ---
-Developed with ❤️ by **SecureVision AI Systems**.
+
+**Developed by SecureVision AI Systems**
